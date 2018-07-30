@@ -1,0 +1,148 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package tp2cicilia;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+/**
+ *
+ * @author Novalia Widya Popy Kristanti
+ */
+public class IPS {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        BufferedReader input2 = new BufferedReader(new InputStreamReader(System.in));
+
+        ArrayList<String> MK = new ArrayList<>();
+        ArrayList<String> NMK = new ArrayList<>();
+        ArrayList<String> GRD = new ArrayList<>();
+        ArrayList<Integer> SKS = new ArrayList<>();
+
+        Scanner scMK = new Scanner(System.in);
+        Scanner scNMK = new Scanner(System.in);
+        Scanner scGRD = new Scanner(System.in);
+        Scanner scSKS = new Scanner(System.in);
+
+        int hasil[] = new int[15];
+
+        String keputusan = "Y";
+
+        int menu, n, i, data = 0, grade, status = 0;
+        double total = 0, totSKS = 0, hasil1, hasil2;
+        String update, baru;
+
+        while (keputusan.equals("Y") || keputusan.equals("y")) {
+            System.out.println("Pendaftaran dan Perhitungan IPS(Indeks Prestasi Semester)");
+            System.out.println("1. Pendaftaran Matakuliah");
+            System.out.println("2. Perhitungan IPS");
+            System.out.println("3. Update Grade");
+            System.out.println("4. Keluar");
+            System.out.print("Masukkan Pilihan Anda: ");
+            menu = sc.nextInt();
+
+            switch (menu) {
+                case 1:
+                    System.out.println("");
+                    System.out.print("Masukkan Jumlah Matakuliah: ");
+                    n = sc.nextInt();
+                    data = n;
+                    for (i = 1; i <= n; i++) {
+                        System.out.print("Masukkan Kode Matakuliah: ");
+                        MK.add(scMK.next());
+                        System.out.print("Masukkan Nama Matakuliah: ");
+                        NMK.add(scNMK.nextLine());
+                        System.out.print("Masukkan Grade Matakuliah: ");
+                        GRD.add(scGRD.next());
+                        System.out.print("Masukkan Jumlah SKS: ");
+                        SKS.add(scSKS.nextInt());
+                        System.out.println("");
+                    }
+                    System.out.println("Selamat Data Berhasil Diinput");
+                    System.out.println("");
+                    break;
+                case 2:
+                    System.out.println("");
+                    System.out.println("Matakuliah yang anda ambil adalah : ");
+                    System.out.printf("%-9s %10s %20s %10s\n","Kode","Matkul","grade","SKS");
+                    for (i = 0; i < data; i++) {
+                        //System.out.println(" " + MK.get(i) + "      " + NMK.get(i) + "      " + GRD.get(i) + "      " + SKS.get(i));
+                        System.out.printf("%-14s",MK.get(i));
+                        System.out.printf("%-23s",NMK.get(i));
+                        System.out.printf("%-13s",GRD.get(i));
+                        System.out.printf("%-10s",SKS.get(i));
+                        System.out.println("");
+                        switch (GRD.get(i)) {
+                            case "A":
+                                grade = 4;
+                                break;
+                            case "B":
+                                grade = 3;
+                                break;
+                            case "C":
+                                grade = 2;
+                                break;
+                            case "D":
+                                grade = 1;
+                                break;
+                            default:
+                                grade = 0;
+                                break;
+                        }
+                        hasil[i] = grade * SKS.get(i);
+                        total = total + hasil[i];
+                        totSKS = totSKS + SKS.get(i);
+                    }
+                    hasil1 = total / totSKS;
+                    System.out.println("Nilai IPS Anda adalah : " + hasil1);
+                    System.out.println("");
+                    break;
+
+                case 3:
+                    System.out.println("");
+                    System.out.print("Masukkan Kode Matakuliah : ");
+                    update = sc.next();
+                    
+                    for (i = 0; i < data; i++) {
+                        if (MK.get(i).equals(update)) {
+                            status = 1;
+                            System.out.print("Masukkan Grade Baru : ");
+                            baru = sc.next();
+                            System.out.printf("%-9s %10s %20s %10s\n","Kode","Matkul","grade","SKS");
+                            GRD.set(i, baru);
+                            for (i = 0; i < data; i++) {
+                        System.out.printf("%-14s",MK.get(i));
+                        System.out.printf("%-23s",NMK.get(i));
+                        System.out.printf("%-13s",GRD.get(i));
+                        System.out.printf("%-10s",SKS.get(i));
+                        System.out.println("");
+                            }
+                            System.out.println("");
+                        }
+                    }
+                    if (status != 1) {
+                        System.out.println("Kode Matakuliah yang anda input tidak tersedia");
+                        System.out.println("");
+                    }
+                    break;
+                case 4:
+                    System.exit(0);
+                default:
+                    System.out.println("Menu Tidak Tersedia");
+                    break;
+
+            }
+            System.out.print("Apakah anda ingin kembali ke menu utama ? Y/T : ");
+            try {
+                keputusan = input2.readLine();
+            } catch (IOException e) {
+            }
+        }
+
+    }
+}
